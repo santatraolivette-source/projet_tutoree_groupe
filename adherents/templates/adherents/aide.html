@@ -1,0 +1,423 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Centre d'Aide
+{% endblock %}
+
+{% block content %}
+  {% load static %}
+
+  <div class="aide-page">
+    <div class="aide-header">
+      <h1>Centre d'Aide <img src="{% static 'icone/icons8-help-50.png' %}" alt="?" width="30" height="30" /></h1>
+      <p>Trouvez les réponses à vos questions et obtenez de l'assistance</p>
+    </div>
+
+    <div class="aide-container">
+      <!-- Barre de recherche -->
+      <div class="aide-search">
+        <input type="text" id="searchInput" placeholder="Recherchez une réponse..." class="search-input" />
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+      </div>
+
+      <!-- Catégories de questions -->
+      <div class="aide-categories">
+        <!-- Compte et Profil -->
+        <div class="aide-card">
+          <div class="card-header">
+            <h2>👤 Compte et Tableau de bord</h2>
+          </div>
+          <div class="card-content">
+            <div class="faq-item">
+              <button class="faq-question" onclick="toggleFAQ(this)">
+                <span>Comment réinitialiser mon mot de passe ?</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <p>Sur la page de connexion, cliquez sur "Mot de passe oublié", entrez votre adresse e-mail, et vous recevrez un lien de réinitialisation. Cliquez sur le lien et créez un nouveau mot de passe.</p>
+              </div>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="faq-item">
+              <button class="faq-question" onclick="toggleFAQ(this)">
+                <span>Comment utiliser le tableau de bord ?</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <p>Consultez vos emprunts actifs visualiser le nombre des livres que vous avez lus pendant l'année, et suivez les dates de retour importantes.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Emprunts et Réservations -->
+        <div class="aide-card">
+          <div class="card-header">
+            <h2>📚 Emprunts et Réservations</h2>
+          </div>
+          <div class="card-content">
+            <div class="faq-item">
+              <button class="faq-question" onclick="toggleFAQ(this)">
+                <span>Comment emprunter un livre ?</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <p>Recherchez le livre ou les livres que vous souhaitez, cliquez sur l'onglet "Reservations" et envoyez votre demande. Le livre sera réservé à votre nom pour une durée de 15 jours.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" onclick="toggleFAQ(this)">
+                <span>Quel est le délai de prêt ?</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <p>La durée standard de prêt est de 15 jours.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" onclick="toggleFAQ(this)">
+                <span>Comment retourner un livre ?</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <p>Apportez le livre et le ticket avant la date limite à la bibliothèque pendant les heures d'ouverture.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recherche et Catalogue -->
+        <div class="aide-card">
+          <div class="card-header">
+            <h2>🔍 Recherche et Catalogue</h2>
+          </div>
+          <div class="card-content">
+            <div class="faq-item">
+              <button class="faq-question" onclick="toggleFAQ(this)">
+                <span>Comment filtrer les livres par catégorie ?</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <p>Utilisez la bare de recherche en haut de la page dans l'onglet "Livres" pour affiner vos résultats par catégorie, auteur, titre ou même par réference.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Assistance et Support -->
+        <div class="aide-card">
+          <div class="card-header">
+            <h2>🆘 Assistance et Support</h2>
+          </div>
+          <div class="card-content">
+            <div class="faq-item">
+              <button class="faq-question" onclick="toggleFAQ(this)">
+                <span>Comment contacter le support ?</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <p>
+                  Vous pouvez nous contacter via le formulaire de contact, par e-mail à <a href="mailto:projettutoree@asja.mg">projettutoree@asja.mg</a>, ou par téléphone au 034 23 453 21. Nos équipes répondent en 24 à 48 heures.
+                </p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" onclick="toggleFAQ(this)">
+                <span>Quelles sont les horaires d'ouverture ?</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <p>Lundi au vendredi : 8h-17h | Samedi : 8h-12h | Dimanche et jours fériés : fermé.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" onclick="toggleFAQ(this)">
+                <span>Comment signaler un problème avec un livre ?</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <p>Si vous avez trouvé un problème (pages manquantes, couverture endommagée, etc.), contactez-nous directement.</p>
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" onclick="toggleFAQ(this)">
+                <span>Comment utiliser l'assistant virtuel ?</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <div class="faq-answer">
+                <p>
+                  CLiquez sur l'icone <img src="{% static 'icone/icons8-chatbot-48.png' %}" alt="" width="20" height="20" /> et envoyez votre message. Posez lui toutes les questions concernant le bibliothèque
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section de contact -->
+      <div class="aide-contact">
+        <h2>Vous n'avez pas trouvé votre réponse ?</h2>
+        <p>Notre équipe de support est là pour vous aider.</p>
+        <a href="mailto:razafindrakotositrakiniaina@gmail.com" class="btn-primary">Nous contacter</a>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .aide-page {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f0f4f8 0%, #f8fafc 100%);
+      padding: 40px 20px;
+    }
+    
+    .aide-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    
+    .aide-header h1 {
+      font-size: 2.5rem;
+      color: #0f172a;
+      margin: 0 0 10px;
+    }
+    
+    .aide-header p {
+      font-size: 1.1rem;
+      color: #64748b;
+      margin: 0;
+    }
+    
+    .aide-container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .aide-search {
+      position: relative;
+      margin-bottom: 40px;
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: 16px 20px 16px 50px;
+      font-size: 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      background: #ffffff;
+      transition: all 0.3s ease;
+    }
+    
+    .search-input:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      color: #94a3b8;
+      pointer-events: none;
+    }
+    
+    .aide-categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+    
+    .aide-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.06);
+      transition: all 0.3s ease;
+    }
+    
+    .aide-card:hover {
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
+    }
+    
+    .card-header {
+      background: linear-gradient(135deg, #3b7ac2 0%, #718cdd 100%);
+      padding: 20px;
+      color: #ffffff;
+    }
+    
+    .card-header h2 {
+      margin: 0;
+      font-size: 1.3rem;
+    }
+    
+    .card-content {
+      padding: 0;
+    }
+    
+    .faq-item {
+      border-bottom: 1px solid #f1f5f9;
+    }
+    
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+    
+    .faq-question {
+      width: 100%;
+      padding: 18px 20px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1rem;
+      color: #0f172a;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      text-align: left;
+    }
+    
+    .faq-question:hover {
+      background: #f8fafc;
+    }
+    
+    .faq-question svg {
+      width: 20px;
+      height: 20px;
+      color: #2563eb;
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+      margin-left: 12px;
+    }
+    
+    .faq-question.active svg {
+      transform: rotate(180deg);
+    }
+    
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      background: #f8fafc;
+      transition: max-height 0.3s ease;
+    }
+    
+    .faq-answer.show {
+      max-height: 500px;
+    }
+    
+    .faq-answer p {
+      padding: 0 20px 20px;
+      margin: 0;
+      color: #475569;
+      line-height: 1.6;
+    }
+    
+    .aide-contact {
+      background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+      padding: 40px;
+      border-radius: 16px;
+      text-align: center;
+      color: #ffffff;
+      margin-top: 50px;
+    }
+    
+    .aide-contact h2 {
+      margin: 0 0 10px;
+      font-size: 1.8rem;
+    }
+    
+    .aide-contact p {
+      margin: 0 0 20px;
+      font-size: 1.1rem;
+      opacity: 0.95;
+    }
+    
+    .btn-primary {
+      display: inline-block;
+      padding: 12px 32px;
+      background: #ffffff;
+      color: #2563eb;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+    
+    @media (max-width: 768px) {
+      .aide-header h1 {
+        font-size: 2rem;
+      }
+    
+      .aide-categories {
+        grid-template-columns: 1fr;
+      }
+    
+      .aide-contact {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+
+  <script>
+    function toggleFAQ(button) {
+      button.classList.toggle('active')
+      const answer = button.nextElementSibling
+      answer.classList.toggle('show')
+    }
+    
+    // Fonction de recherche
+    document.getElementById('searchInput').addEventListener('keyup', function (e) {
+      const searchTerm = e.target.value.toLowerCase()
+      const cards = document.querySelectorAll('.aide-card')
+    
+      cards.forEach((card) => {
+        const text = card.textContent.toLowerCase()
+        if (text.includes(searchTerm) || searchTerm === '') {
+          card.style.display = ''
+        } else {
+          card.style.display = 'none'
+        }
+      })
+    })
+  </script>
+{% endblock %}

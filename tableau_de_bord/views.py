@@ -301,3 +301,4 @@ def mes_emprunts(request):
         return render(request, "tableau_de_bord/mes_emprunts.html", {
             'emprunts' : page_obj
         })
+

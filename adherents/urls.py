@@ -11,5 +11,6 @@ urlpatterns = [
     path("verification/", adherent_views.verification, name="verification"),
     path("inscription/", adherent_views.inscription, name="inscription"),
     path("reservation", adherent_views.reservation_avec_detail, name="reservation"),
-    path("liste_reservation/", adherent_views.liste_reservation, name="listeReservation")
+    path("liste_reservation/", adherent_views.liste_reservation, name="listeReservation"),
+    path("aide/", adherent_views.aide, name="aide"),
 ]

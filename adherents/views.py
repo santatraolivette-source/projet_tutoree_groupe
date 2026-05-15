@@ -209,3 +209,11 @@ def liste_reservation(request):
         }
 
         return render(request, "adherents/liste_reservation.html", context)
+
+
+@login_required
+def aide(request):
+     if get_user_role(request.user)['role'] == 'bibliothecaire':
+        return HttpResponseForbidden("Vous n'avez pas la permission nécessaire pour cette page.")
+     else:
+         return render(request, 'adherents/aide.html')
