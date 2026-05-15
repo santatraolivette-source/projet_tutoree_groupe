@@ -1,9 +1,14 @@
-from django.db.models.signals import post_delete
+from django.db.models.signals import pre_delete
 from django.dispatch import receiver
-from .models import Adherent
+from .models import Adherent, CompteAdherent
 
-@receiver(post_delete, sender=Adherent)
+@receiver(pre_delete, sender=Adherent)
 def supprimer_user_adherent(sender, instance, **kwargs):
-    if instance.user:
-        instance.compteadherent.user.delete()
-        
+    """Supprime l'utilisateur Django associé avant la suppression de l'adhérent"""
+    try:
+        compte = CompteAdherent.objects.get(personne=instance)
+        compte.user.delete()
+    except CompteAdherent.DoesNotExist:
+        pass
+
+

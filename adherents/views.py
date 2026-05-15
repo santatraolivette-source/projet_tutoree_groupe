@@ -5,10 +5,11 @@ from .forms import FormulaireAjoutAdherent, FormulaireInscription, VerificationP
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.core.mail import send_mail
-import random
+import secrets
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from bibliotheque.utils import get_user_role
+from django.forms import ValidationError
 
 @login_required
 def liste_adherents(request):
@@ -92,9 +93,7 @@ def verification(request):
         form = VerificationParEmail(request.POST)
         if form.is_valid():
             email = form.cleaned_data['email']
-            otp = ''
-            for c in random.sample(range(1,9), 5):
-                otp += str(c)
+            otp = ''.join(secrets.choice('0123456789') for _ in range(5))
             request.session['otp_code'] = otp
             request.session['otp_email'] = email
             send_mail(
@@ -116,40 +115,43 @@ def inscription(request):
     otp_attendu = request.session.get('otp_code')
     email_verifie = request.session.get('otp_email')
 
-    if not otp_attendu:
+    if not otp_attendu or not email_verifie:
         return redirect('verification')
     
     if request.method == 'POST':
-        form = FormulaireInscription(request.POST)
+        form = FormulaireInscription(
+            request.POST,
+            otp_attendu=otp_attendu,
+            email_verifie=email_verifie,
+        )
         if form.is_valid():
-            
-            otp_saisi = form.cleaned_data['code_otp']
-            if otp_saisi == otp_attendu:
-                matricule = form.cleaned_data['matricule']
-                username  = form.cleaned_data['username']
-                password  = form.cleaned_data['password']
-                #Recuperer le personneautoriséé (adherent)
-                personne = Adherent.objects.get(matricule=matricule)
+            matricule = form.cleaned_data['matricule']
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            # Recuperer la personne autorisée (adherent)
+            personne = Adherent.objects.get(matricule=matricule)
 
-                #Création d'un utilisateur django associé
-                user = User.objects.create_user(
-                    username = username,
-                    password = password,
-                    email    = personne.email,
-                )
+            # Création d'un utilisateur django associé
+            user = User.objects.create_user(
+                username=username,
+                password=password,
+                email=personne.email,
+            )
 
-                # Création de la compte pour l'adherent
-                CompteAdherent.objects.create(
-                    user     = user,
-                    personne = personne,
-                )
-                return redirect('seConnecter')
-            else:
-                form.add_error('otp', 'Le code OTP est incorrect')
-            
+            # Création du compte pour l'adherent
+            CompteAdherent.objects.create(
+                user=user,
+                personne=personne,
+            )
+
+            request.session.pop('otp_code', None)
+            request.session.pop('otp_email', None)
+            return redirect('seConnecter')
     else:
-
-        form = FormulaireInscription()
+        form = FormulaireInscription(
+            otp_attendu=otp_attendu,
+            email_verifie=email_verifie,
+        )
 
     return render(request, 'adherents/inscription.html', {'form': form})
 

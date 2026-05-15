@@ -54,16 +54,34 @@ class FormulaireInscription(forms.Form):
                                 
    
 
+    def __init__(self, *args, otp_attendu=None, email_verifie=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.otp_attendu = otp_attendu
+        self.email_verifie = email_verifie
+
+    def clean_code_otp(self):
+        code_otp = self.cleaned_data.get('code_otp')
+        if self.otp_attendu is None:
+            raise forms.ValidationError("Impossible de vérifier le code OTP.")
+        if code_otp != self.otp_attendu:
+            raise forms.ValidationError("Code OTP incorrect")
+        return code_otp
 
     def clean(self):
         cleaned_data = super().clean()
         matricule = cleaned_data.get('matricule')
         password = cleaned_data.get('password')
         password2 = cleaned_data.get('password2')
-        code_otp = cleaned_data.get('code_otp')
 
         if not Adherent.objects.filter(matricule=matricule).exists():
             raise forms.ValidationError("Votre matricule n'est pas réconnu. Contactez l'administration.")
+        
+        if self.email_verifie is None:
+            raise forms.ValidationError("Impossible de vérifier l'adresse email.")
+
+        personne = Adherent.objects.get(matricule=matricule)
+        if personne.email != self.email_verifie:
+            raise forms.ValidationError("L'email vérifié ne correspond pas au matricule fourni.")
         
         if CompteAdherent.objects.filter(personne__matricule=matricule).exists():
             raise forms.ValidationError(

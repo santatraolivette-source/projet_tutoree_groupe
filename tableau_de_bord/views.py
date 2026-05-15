@@ -130,7 +130,7 @@ def index_dashboard(request):
     
 
         #Genres lu adhérent
-        genres_lus = Emprunt.objects.values('reservation__ligneReservation__livre__categorie').annotate(total=Count('id')).order_by('-total')[:5]
+        genres_lus = Emprunt.objects.values('reservation__ligneReservation__livre__categorie').filter(reservation__adherent__compteadherent__user=request.user).annotate(total=Count('id')).order_by('-total')[:5]
         label_genre_lus = [e['reservation__ligneReservation__livre__categorie'] for e in genres_lus]
         data_genre_lus = [e['total'] for e in genres_lus]
 
@@ -291,7 +291,7 @@ def mes_emprunts(request):
     if get_user_role(request.user)['role'] == 'bibliothecaire':
         return HttpResponseForbidden("Vous n'avez pas la permission nécessaire pour cette page.")
     else:
-        emprunts = Emprunt.objects.filter(reservation__adherent__compteadherent__user=request.user, statut='Non retourné')
+        emprunts = Emprunt.objects.filter(reservation__adherent__compteadherent__user=request.user, statut='Retourné')
         print(emprunts)
         return render(request, "tableau_de_bord/mes_emprunts.html", {
             'emprunts' : emprunts
