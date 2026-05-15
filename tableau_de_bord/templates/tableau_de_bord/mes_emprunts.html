@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-  <h4>Vos ancien emprunts dejà retournés</h4>
+  <h4>Vos ancien emprunts</h4>
   <table class="table">
     <thead>
       <tr>
@@ -28,4 +28,37 @@
       {% endfor %}
     </tbody>
   </table>
+  <nav aria-label="Pagination des réservations" class="mt-4">
+    <ul class="pagination justify-content-center mb-0">
+      {% if emprunts.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ emprunts.previous_page_number }}" aria-label="Précédent">&laquo;</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">&laquo;</span>
+        </li>
+      {% endif %}
+
+      {% for num in emprunts.paginator.page_range %}
+        <li class="page-item {% if num == emprunts.number %}active{% endif %}">
+          {% if num == emprunts.number %}
+            <span class="page-link">{{ num }}</span>
+          {% else %}
+            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+          {% endif %}
+        </li>
+      {% endfor %}
+
+      {% if emprunts.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ emprunts.next_page_number }}" aria-label="Suivant">&raquo;</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link">&raquo;</span>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
 {% endblock %}

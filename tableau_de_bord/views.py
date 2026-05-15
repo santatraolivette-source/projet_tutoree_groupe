@@ -17,7 +17,7 @@ from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
-
+from django.core.paginator import Paginator
 
 
 @login_required
@@ -292,7 +292,12 @@ def mes_emprunts(request):
         return HttpResponseForbidden("Vous n'avez pas la permission nécessaire pour cette page.")
     else:
         emprunts = Emprunt.objects.filter(reservation__adherent__compteadherent__user=request.user, statut='Retourné')
-        print(emprunts)
+        
+        paginator = Paginator(emprunts, 10)
+        page_num = request.GET.get('page')
+        page_obj = paginator.get_page(page_num)
+
+        
         return render(request, "tableau_de_bord/mes_emprunts.html", {
-            'emprunts' : emprunts
+            'emprunts' : page_obj
         })

@@ -362,3 +362,9 @@ body.page-load-animation main {
     padding-bottom: 1rem;
   }
 }
+
+
+
+ .card {
+    transition: transform 0.2s ease;
+    }

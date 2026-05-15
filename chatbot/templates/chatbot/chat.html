@@ -8,15 +8,25 @@
   {% load static %}
   <link rel="stylesheet" href="{% static 'css/chat.css' %}" />
   <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
-  <div class="chat-container">
-    <div id="chatbox"></div>
-    <div>
+
+  <div class="chat-page">
+    <div class="chat-container">
+      <div class="chat-header">
+        <div>
+          <h1>Votre assistant virtuel</h1>
+          <p>Posez votre question et recevez une réponse intelligente.</p>
+        </div>
+      </div>
+
+      <div id="chatbox" class="chatbox"></div>
+
       <div class="chat-input">
-        <input type="text" id="userInput" placeholder="Posez votre question..." />
-        <button onclick="envoyerMessage()" class="btn"><img src="{% static 'icone/icons8-send-50.png' %}" alt="Envoyer" width="30" height="30" /></button>
+        <input type="text" id="userInput" placeholder="Posez votre question..." autocomplete="off" />
+        <button type="button" onclick="envoyerMessage()" class="send-button"><img src="{% static 'icone/icons8-send-50.png' %}" alt="Envoyer" width="24" height="24" /></button>
       </div>
     </div>
   </div>
+
   <script>
     // Historique des messages
     let historique = []
@@ -29,53 +39,50 @@
       if (!message) return
     
       // Afficher message utilisateur
-      chatbox.innerHTML += `<div class="d-flex justify-content-end"><div class="message user alert alert-secondary"><p>${message}</p></div></div>`
+      chatbox.innerHTML += `<div class="message-row user-row"><div class="message user"><p>${message}</p></div></div>`
     
       input.value = ''
       chatbox.scrollTop = chatbox.scrollHeight
     
       // Afficher indicateur de chargement
-      chatbox.innerHTML += `<div class="message bot" id="loading"><p>...</p></div>`
+      chatbox.innerHTML += `<div class="message-row bot-row" id="loading"><div class="message bot"><p>...</p></div></div>`
     
-      // Envoyer à Django le message avec une fonction asynchrone
       const response = await fetch("{% url 'chatbot' %}", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'X-CSRFToken': '{{ csrf_token }}'
-        }, // Ajout du token CSRF pour éviter l'erreur
-        body: JSON.stringify({ message: message }) // Message à envoyer au format JSON
+        },
+        body: JSON.stringify({ message: message })
       })
     
-      const data = await response.json() // Stockage de la réponse dans une variable
-    
-      // Supprimer chargement et afficher réponse
+      const data = await response.json()
       document.getElementById('loading').remove()
     
-      chatbox.innerHTML += `<div class="message bot"><p>🤖 ${data.response}</p></div>`
+      chatbox.innerHTML += `<div class="message-row bot-row"><div class="message bot"><p>🤖 ${data.response}</p></div></div>`
     
       chatbox.scrollTop = chatbox.scrollHeight
     }
     
-    // Envoyer avec Entrée
     document.getElementById('userInput').addEventListener('keypress', (e) => {
       if (e.key === 'Enter') envoyerMessage()
     })
     
-    // Charger l'historique depuis la BDD
     async function chargerHistorique() {
       const response = await fetch("{% url 'chargerHistorique' %}")
       const data = await response.json()
       const chatbox = document.getElementById('chatbox')
     
-      // On parcourt l'historique des messages
       data.historique.forEach((item) => {
-        chatbox.innerHTML += item.role === 'user' ? `<div class="d-flex justify-content-end p-0.5"><div class="message user alert alert-secondary"><p>${item.message}</p></div></div>` : `<div class="message bot alert alert-light"><p>🤖 ${item.message}</p></div>`
+        if (item.role === 'user') {
+          chatbox.innerHTML += `<div class="message-row user-row"><div class="message user"><p>${item.message}</p></div></div>`
+        } else {
+          chatbox.innerHTML += `<div class="message-row bot-row"><div class="message bot"><p>🤖 ${item.message}</p></div></div>`
+        }
       })
       chatbox.scrollTop = chatbox.scrollHeight
     }
     
-    // On recharge l'historique à chaque chargement de la page
     document.addEventListener('DOMContentLoaded', chargerHistorique)
   </script>
 {% endblock %}
