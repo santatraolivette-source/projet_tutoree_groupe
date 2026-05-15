@@ -6,4 +6,4 @@ class AdherentsConfig(AppConfig):
 
 
     def ready(self):
-        import adherents.signals#Signal django pour supprimer le compte lié à l'adherent lorsu'on le supprime
+        import adherents.signals  # Signal Django pour supprimer le compte lié à l'adhérent lorsqu'on le supprime

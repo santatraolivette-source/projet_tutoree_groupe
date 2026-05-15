@@ -135,7 +135,7 @@
 
         {% endblock %}
       </main>
-      {% if user_role and user_role.role == 'adherent' %}
+      {% if user_role and user_role.role == 'adherent' and request.path != '/chatbot/' %}
         <a title="Assistant virtuel" class="chatbot-btn bg-primary chatbot" id="chatbot" draggable="true" href="{% url 'chatbot' %}"><img src="{% static 'icone/icons8-chatbot-48.png' %}" alt="" width="30" height="30" class="icon" /></a>
       {% endif %}
       <footer class="text-center text-muted py-4 border-top mt-auto bg-white">

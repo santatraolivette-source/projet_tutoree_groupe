@@ -43,11 +43,11 @@
         headers: {
           'Content-Type': 'application/json',
           'X-CSRFToken': '{{ csrf_token }}'
-        }, //Ajout token csrf pour éviter l'erreur
-        body: JSON.stringify({ message: message }) //Message à envoyé au format json
+        }, // Ajout du token CSRF pour éviter l'erreur
+        body: JSON.stringify({ message: message }) // Message à envoyer au format JSON
       })
     
-      const data = await response.json() //Stockage reponse dans une variable
+      const data = await response.json() // Stockage de la réponse dans une variable
     
       // Supprimer chargement et afficher réponse
       document.getElementById('loading').remove()
@@ -68,14 +68,14 @@
       const data = await response.json()
       const chatbox = document.getElementById('chatbox')
     
-      // On itère l'historique du message
+      // On parcourt l'historique des messages
       data.historique.forEach((item) => {
         chatbox.innerHTML += item.role === 'user' ? `<div class="d-flex justify-content-end p-0.5"><div class="message user alert alert-secondary"><p>${item.message}</p></div></div>` : `<div class="message bot alert alert-light"><p>🤖 ${item.message}</p></div>`
       })
       chatbox.scrollTop = chatbox.scrollHeight
     }
     
-    //On recharge l'historique à chaque chargment de la page
+    // On recharge l'historique à chaque chargement de la page
     document.addEventListener('DOMContentLoaded', chargerHistorique)
   </script>
 {% endblock %}

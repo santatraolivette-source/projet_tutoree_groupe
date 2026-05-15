@@ -8,32 +8,32 @@ from emprunts.models import Emprunt
 from .utils import get_user_role
 from django.http import HttpResponse
 
-#on définit cette fonction context_processeurs parce que on a besoin de renvoyer ces données
-#à la template de base pour eviter de créer une fonction views pour chaque application
-#Cette fonction dashboards_stats s'execute automatiquement à chaque requête et envoie les données à toutes les templates
+# On définit cette fonction de context processors parce que nous avons besoin de renvoyer ces données
+# à la template de base pour éviter de créer une fonction view pour chaque application
+# Cette fonction dashboard_stats s'exécute automatiquement à chaque requête et envoie les données à tous les templates
 def dashboard_stats(request):
-    ajourd_hui = timezone.now().date()#Date aujourd'hui
+    ajourd_hui = timezone.now().date()  # Date d'aujourd'hui
     dans_3_jours = ajourd_hui + timedelta(days=3)
-    #Données pour bibliothécaire
-        #Total livre par titre
+    # Données pour bibliothécaire
+    # Total livre par titre
     try:
-        total_livres = Livre.objects.aggregate(total=Sum('quantite'))['total'] or 0 #calculé le nombre des livres
-        #disponibles en additionnant les quantités et en stockant le resulat dans une variable total
-        #aggregate retourne un dictionnaire  {'total' : total }
-        titres_differents = Livre.objects.count() #On compte les différentes titres du livre enregistrer
+        total_livres = Livre.objects.aggregate(total=Sum('quantite'))['total'] or 0  # calculer le nombre de livres
+        # disponibles en additionnant les quantités et en stockant le résultat dans une variable total
+        # aggregate retourne un dictionnaire {'total' : total}
+        titres_differents = Livre.objects.count()  # On compte les différents titres de livres enregistrés
 
 
-        #Totals adhérents
+        # Totaux adhérents
         total_adherents = Adherent.objects.count()
-        #Membres actifs
-        #emprunt__statut = requette join Adherent --> Reservation --> Emprunt --> statut
-        # .distinct() evite le doublons
-        #Adherent qui à un emprunt en cours
+        # Membres actifs
+        # emprunt__statut = requête join Adherent --> Reservation --> Emprunt --> statut
+        # .distinct() évite les doublons
+        # Adhérent qui a un emprunt en cours
         membres_actifs = Adherent.objects.filter(reservation__emprunt__statut='Non retourné').distinct().count()
     
 
         #Emprunts en cours
-        #Filtration des emprunts avec attribus statut = 'Non retourné
+        # Filtration des emprunts avec attribut statut = 'Non retourné'
         emprunts_non_retournee = Emprunt.objects.filter(statut='Non retourné').count()
 
         
@@ -71,7 +71,7 @@ def dashboard_stats(request):
             'default' : None
         }
     except:
-        return HttpResponse("Bienvenue, l'application est en maintenance , Veuillez contactez l'administrateur. Merci pour votre patience")
+        return HttpResponse("Bienvenue, l'application est en maintenance. Veuillez contacter l'administrateur. Merci pour votre patience")
 
 
 def user_role(request):

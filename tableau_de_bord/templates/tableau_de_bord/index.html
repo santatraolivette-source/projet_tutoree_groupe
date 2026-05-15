@@ -89,21 +89,21 @@
 
     <div class="row g-3 mb-4">
       <div class="col-sm-6 col-xl-3">
-        <div class="card card-soft p-3 h-100">
+        <div class="card card-soft p-3 h-100 text-muted-soft">
           <h3 class="h6 text-uppercase text-primary mb-2">Emprunts en cours</h3>
           <p class="display-6 mb-2">{{ emprunt_actif }}</p>
           <p class="text-muted-soft mb-0">Livres actuellement empruntés</p>
         </div>
       </div>
       <div class="col-sm-6 col-xl-3">
-        <div class="card card-soft p-3 h-100">
+        <div class="card card-soft p-3 h-100 text-muted-soft">
           <h3 class="h6 text-uppercase text-primary mb-2">Réservations</h3>
           <p class="display-6 mb-2">{{ total_reservation_effectuee }}</p>
           <p class="text-muted-soft mb-0">{{ reservation_validee }} validées · {{ reservation_en_attente }} en attente</p>
         </div>
       </div>
       <div class="col-sm-6 col-xl-3">
-        <div class="card card-soft p-3 h-100">
+        <div class="card card-soft p-3 h-100 text-muted-soft">
           <h3 class="h6 text-uppercase text-primary mb-2">Retour imminent</h3>
           <p class="display-6 mb-1">
             {% if retour_imminent %}
@@ -116,7 +116,7 @@
         </div>
       </div>
       <div class="col-sm-6 col-xl-3">
-        <div class="card card-soft p-3 h-100">
+        <div class="card card-soft p-3 h-100 text-muted-soft">
           <h3 class="h6 text-uppercase text-primary mb-2">Total lu cette année</h3>
           <p class="display-6 mb-2">{{ total_livre_lu }}</p>
           <p class="text-muted-soft mb-0">Livres empruntés et retournés.</p>
@@ -126,7 +126,7 @@
 
     <div class="row g-4">
       <div class="col-xl-7">
-        <div class="card card-soft p-4 h-100">
+        <div class="card card-soft p-4 h-100 text-muted-soft">
           <div class="d-flex align-items-center justify-content-between mb-3">
             <div>
               <h2 class="h5 mb-1">Emprunts en cours</h2>
@@ -171,7 +171,7 @@
       </div>
 
       <div class="col-xl-5">
-        <div class="card card-soft p-4 h-100">
+        <div class="card card-soft p-4 h-100 text-muted-soft">
           <h2 class="h5 mb-3">Genres les plus lus</h2>
           <canvas id="genre_lus"></canvas>
         </div>

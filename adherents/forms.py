@@ -41,15 +41,15 @@ class FormulaireInscription(forms.Form):
                                    'class' : 'form-control border',
                                    'placeholder' : 'XXXXX'
                                }))
-    password = forms.CharField(label='Mots de passe',
+    password = forms.CharField(label='Mot de passe',
                                widget=forms.PasswordInput(attrs={
                                    'class' : 'form-control border',
-                                   'placeholder' : 'Composé au moins 8 caractères(0-9,*/%,a-z,A-Z)'
+                                   'placeholder' : 'Composez un mot de passe d\'au moins 8 caractères (0-9,*/%,a-z,A-Z)'
                                }))
-    password2 = forms.CharField(label='Confirmer mots de passe',
+    password2 = forms.CharField(label='Confirmer le mot de passe',
                                 widget=forms.PasswordInput(attrs={
                                     'class' : 'form-control border',
-                                    'placeholder' : 'Entrez le même mots de passe ici'
+                                    'placeholder' : 'Entrez le même mot de passe ici'
                                 }))
                                 
    
@@ -74,7 +74,7 @@ class FormulaireInscription(forms.Form):
         password2 = cleaned_data.get('password2')
 
         if not Adherent.objects.filter(matricule=matricule).exists():
-            raise forms.ValidationError("Votre matricule n'est pas réconnu. Contactez l'administration.")
+            raise forms.ValidationError("Votre matricule n'est pas reconnu. Contactez l'administration.")
         
         if self.email_verifie is None:
             raise forms.ValidationError("Impossible de vérifier l'adresse email.")
@@ -85,7 +85,7 @@ class FormulaireInscription(forms.Form):
         
         if CompteAdherent.objects.filter(personne__matricule=matricule).exists():
             raise forms.ValidationError(
-                "Un compte existe dejà pour ce matricule"
+                "Un compte existe déjà pour ce matricule"
             )
         
         if password != password2:
@@ -94,7 +94,7 @@ class FormulaireInscription(forms.Form):
         return cleaned_data
     
 
-#Formulaire pour la verification par email
+# Formulaire pour la vérification par email
 class VerificationParEmail(forms.Form):
     email = forms.EmailField(label="Entrez votre adresse email",
                              widget=forms.EmailInput(attrs={
@@ -127,9 +127,9 @@ class DetailReservationFormSet(BaseInlineFormSet):
         if any(self.errors):
             return
         
-        #On verifie si il n'y a aucun doublons
-        livre_deja_ajoutee = set()#variable pour stocker les livres reservés sans doublons
-        valid_forms_count = 0 #Variable pour compter le nombre de détail
+        # On vérifie qu'il n'y a pas de doublons
+        livre_deja_ajoutee = set()  # variable pour stocker les livres réservés sans doublons
+        valid_forms_count = 0  # variable pour compter le nombre de détails
 
         for form in self.forms:
             if form.cleaned_data and not form.cleaned_data.get("DELETE", False):
@@ -149,24 +149,25 @@ class DetailReservationFormSet(BaseInlineFormSet):
                     if quantite > livre_reserver.quantite:
                         raise forms.ValidationError(
                             f"Stock insuffisant pour le livre '{livre_reserver.titre}'"
-                            f"- Stock disponible : {livre_reserver.quantite}"
+                            f" - Stock disponible : {livre_reserver.quantite}"
                         )
                 else:
                     raise forms.ValidationError(
-                        "La quantité doit supérieur ou égale à 1"
+                        "La quantité doit être supérieure ou égale à 1"
                     )
 
 
                 valid_forms_count += 1
         if valid_forms_count < 1:
-            raise ValidationError("Vous devez reserver au moins un livre")
+            raise ValidationError("Vous devez réserver au moins un livre")
     
-#Utilisation de inlineformset_factory de Django pour faciliter l'enregistrement de plusieurs formulaire
+# Utilisation de inlineformset_factory de Django pour faciliter l'enregistrement de plusieurs formulaires
+
 #enfant (DetailReservation) avec un même parent(Reservation)
 DetailReservationInlineFormSet = inlineformset_factory(
     Reservation,#Modele parent
     DetailReservation,#Modèle enfant
-    fields = ['livre', 'quantite'],#Les champs à remplir
+    fields = ['livre', 'quantite'],  # Les champs à remplir
     widgets={
         'livre' : forms.Select(attrs={
             'class' : 'form-control'
@@ -175,7 +176,7 @@ DetailReservationInlineFormSet = inlineformset_factory(
             'class' : 'form-control'
         })
     },
-    extra=1,#Le nombre des formulaires enfant
-    can_delete=False,#On peut  supprime le formulaire enfant
-    formset=DetailReservationFormSet#On précise le formset utilisé
+    extra=1,  # Le nombre de formulaires enfant
+    can_delete=False,  # On peut supprimer le formulaire enfant
+    formset=DetailReservationFormSet  # On précise le formset utilisé
 )

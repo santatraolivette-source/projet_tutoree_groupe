@@ -128,10 +128,10 @@ def inscription(request):
             matricule = form.cleaned_data['matricule']
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            # Recuperer la personne autorisée (adherent)
+            # Récupérer la personne autorisée (adhérent)
             personne = Adherent.objects.get(matricule=matricule)
 
-            # Création d'un utilisateur django associé
+            # Création d'un utilisateur Django associé
             user = User.objects.create_user(
                 username=username,
                 password=password,
@@ -164,10 +164,10 @@ def reservation_avec_detail(request):
         if request.method == "POST":
             reservation_form = FormulaireReservation(request.POST)
        
-            #Vérifiation si la formulaire est ok
+            # Vérification si le formulaire est valide
             if reservation_form.is_valid():
                 reservation = reservation_form.save(commit=False)
-                #Recuperer l'adhérent connecté
+                # Récupérer l'adhérent connecté
                 adherent = request.user.compteadherent.personne
                 reservation.adherent = adherent
                 detail_reservation_form = DetailReservationInlineFormSet(request.POST, instance=reservation)

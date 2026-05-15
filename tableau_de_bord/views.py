@@ -23,18 +23,18 @@ from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, Tabl
 @login_required
 def index_dashboard(request):
     try:
-        #Récuperation des quantité de livre par catégorie
-        #.values('categorie') == regroupé par catégorie
-        #.annotate(total_quantite=Sum('quantite')) == On additionne la valeur de l'attribut quantite de chaque categorie regroupé
-        #Puis on arrange par catégorie
+        # Récupération des quantités de livres par catégorie
+        # .values('categorie') == regroupé par catégorie
+        # .annotate(total_quantite=Sum('quantite')) == On additionne la valeur de l'attribut quantite de chaque catégorie regroupée
+        # Puis on arrange par catégorie
         quantite_par_categorie = Livre.objects.values('categorie').annotate(total_quantite=Sum('quantite')).order_by('categorie')
         labels_livre_categorie = [q['categorie'] for q in quantite_par_categorie]
         data_livre_categorie = [q['total_quantite'] for q in quantite_par_categorie]
     
     
     
-        #On regroupe les adhérents par fonction puis on crée une variable à la volé effectif total qui
-        #contient l'effectif des adhérents groupés par fonction
+        # On regroupe les adhérents par fonction puis on crée une variable à la volée effectif total qui
+        # contient l'effectif des adhérents groupés par fonction
         adherent_par_fonction = Adherent.objects.values('fonctions').annotate(effectif_total=Count('matricule'))
         labels_adherent_fonction = [a['fonctions'] for a in adherent_par_fonction]
         data_adherent_fonction = [a['effectif_total'] for a in adherent_par_fonction]
@@ -42,12 +42,12 @@ def index_dashboard(request):
 
 
     
-        #On recupère le nombre des emprunts du 7 mois passé
-        #Définir un variable pour stocker la date de debut date ajourd'hui - 7 mois
+        # On récupère le nombre d'emprunts des 7 derniers mois
+        # Définir une variable pour stocker la date de début : aujourd'hui - 7 mois
         date_debut = timezone.now() - relativedelta(months=7)
-        #__gt = greate than
-        #__lte = less than or equal
-        #__lt = less than
+        # __gt = greater than
+        # __lte = less than or equal
+        # __lt = less than
         #truncMonth = Tronque une date en ne gardant que l'année et les mois
         emprunt_par_mois = (
             Emprunt.objects.
