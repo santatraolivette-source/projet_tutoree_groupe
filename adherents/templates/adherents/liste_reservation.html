@@ -43,9 +43,9 @@
                   </td>
                 {% endif %}
                 <td>
-                  <ul class="mb-0">
+                  <ul class="mb-0 list-group">
                     {% for detail in reservation.ligneReservation.all %}
-                      <li>Livre : {{ detail.livre }}, Quantité : {{ detail.quantite }}</li>
+                      <li class="list-group-item">Livre : {{ detail.livre }}, Quantité : {{ detail.quantite }}</li>
                     {% endfor %}
                   </ul>
                 </td>

@@ -1,4 +1,3 @@
-import datetime
 import io
 import json
 
@@ -9,15 +8,18 @@ from livres.models import Livre
 from adherents.models import Adherent, Reservation
 from emprunts.models import Emprunt
 from django.db.models import F, Avg, DurationField, ExpressionWrapper, Sum, Count
-from django.db.models.functions import TruncMonth, TruncDate
+from django.db.models.functions import TruncMonth
 from django.utils import timezone
 from dateutil.relativedelta import relativedelta
 from django.contrib.auth.decorators import login_required
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
-from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle, Image
 from django.core.paginator import Paginator
+import qrcode
+from reportlab.platypus import Table as PlTable
+from reportlab.platypus import Spacer
 
 
 @login_required
@@ -180,18 +182,54 @@ def generer_recu_pdf(reservation, emprunt):
             return ''
         return str(text).replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
 
+    # Générer le code QR contenant les informations de la réservation
+    qr_data = f"Reservation:{reservation.pk}\nAdherent:{reservation.adherent.matricule}\nDate:{reservation.date_reservation}"
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=1,
+    )
+    qr.add_data(qr_data)
+    qr.make(fit=True)
+    
+    qr_img = qr.make_image(fill_color="black", back_color="white")
+    qr_buffer = io.BytesIO()
+    qr_img.save(qr_buffer, format='PNG')
+    qr_buffer.seek(0)
+    
+    # Créer une image réportlab à partir du code QR
+    qr_image = Image(qr_buffer, width=80, height=80)
+
+    
+    
+    header_data = [
+        [
+            Paragraph("Reçu d'emprunt - Bibliothèque", styles['ReceiptTitle']),
+            qr_image
+        ]
+    ]
+    header_table = PlTable(header_data, colWidths=[450, 80])
+    header_table.setStyle(TableStyle([
+        ('ALIGN', (0, 0), (0, 0), 'LEFT'),
+        ('ALIGN', (1, 0), (1, 0), 'RIGHT'),
+        ('VALIGN', (0, 0), (-1, -1), 'TOP'),
+    ]))
+
     elements = [
-        Paragraph("Reçu d'emprunt - Bibliothèque", styles['ReceiptTitle']),
+        header_table,
+        Spacer(1, 12),
         Paragraph(f"Réservation n°: {reservation.pk}", styles['SectionHeading']),
         Paragraph(f"Date réservation: {reservation.date_reservation.strftime('%d/%m/%Y')}", styles['Normal']),
         Paragraph(f"Date validation: {reservation.date_validation.strftime('%d/%m/%Y') if reservation.date_validation else 'N/A'}", styles['Normal']),
+        Paragraph(f"A retourné avant : {emprunt.date_limite.strftime('%d/%m/%Y')}", styles['Normal']),
         Spacer(1, 12),
         Paragraph("Informations adhérent", styles['SectionHeading']),
         Paragraph(f"Nom: {reservation.adherent.nom} {reservation.adherent.prenom}", styles['Normal']),
         Paragraph(f"Matricule: {reservation.adherent.matricule}", styles['Normal']),
         Paragraph(f"Email: {reservation.adherent.email}", styles['Normal']),
         Spacer(1, 12),
-        Paragraph("Livres réservés", styles['SectionHeading']),
+        Paragraph("Livres empruntés", styles['SectionHeading']),
     ]
 
     table_data = [["Référence", "Titre", "Auteur", "Quantité"]]
@@ -222,9 +260,9 @@ def generer_recu_pdf(reservation, emprunt):
     elements.append(table)
     elements.append(Spacer(1, 16))
     elements.append(Paragraph("Informations de validation", styles['SectionHeading']))
-    elements.append(Paragraph(f"Bibliothécaire: {emprunt.bibliothecaire.get_full_name() or emprunt.bibliothecaire.username}", styles['Normal']))
-    elements.append(Paragraph(f"Statut emprunt: {emprunt.statut}", styles['Normal']))
+    elements.append(Paragraph(f"Validé par: {emprunt.bibliothecaire.get_full_name() or emprunt.bibliothecaire.username} ,le: {emprunt.date_emprunt}", styles['Normal']))
     elements.append(Spacer(1, 24))
+    elements.append(Paragraph("Assurez-vous d'emporter ce ticket avec vous lorsque vous retournez le(s) livre(s).", styles['Small']))
     elements.append(Paragraph("Merci d'avoir utilisé la bibliothèque.", styles['Small']))
 
     doc.build(elements)

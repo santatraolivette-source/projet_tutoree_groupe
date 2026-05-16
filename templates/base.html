@@ -38,7 +38,7 @@
         <header class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
           <div class="container-fluid">
             <a class="navbar-brand d-flex align-items-center gap-2" href="{% url 'indexDashboard' %}">
-              <img src="{% static 'logo/logo.png' %}" alt="Logo" width="34" height="34" />
+              <img src="{% static 'icone/livre_01.png' %}" alt="Logo" width="34" height="34" />
               LibManager
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
@@ -81,11 +81,11 @@
                 {% endif %}
               </ul>
               <div class="d-flex align-items-center gap-2">
-                <button id="themeToggle" type="button" class="btn btn-sm btn-outline-light btn-theme-toggle" aria-label="Basculer thème"><img src="{% static 'icone/sombre.png' %}" alt="Mode sombre" width="20" height="20" class="theme-icon" /></button>
+                <button id="themeToggle" type="button" class="btn btn-sm btn-theme-toggle" aria-label="Basculer thème" title="Changer le mode"><img src="{% static 'icone/sombre.png' %}" alt="Mode sombre" width="30" height="30" class="theme-icon" /></button>
                 {% if user.is_authenticated %}
-                  <a href="{% url 'seDeconnecter' %}" class="btn btn-outline-light btn-sm"><img src="{% static 'icone/deconnecter.png' %}" alt="Se deconnecter" width="25" height="25" /></a>
+                  <a href="{% url 'seDeconnecter' %}" class="btn btn-sm" title="Se deconnecter"><img src="{% static 'icone/deconnecter.png' %}" alt="Se deconnecter" width="30" height="30" /></a>
                 {% else %}
-                  <a href="{% url 'seConnecter' %}" class="btn btn-outline-light btn-sm">Connexion</a>
+                  <a href="{% url 'seConnecter' %}" class="btn btn-sm" title="Se connecter">Connexion</a>
                 {% endif %}
               </div>
             </div>
@@ -178,13 +178,13 @@
         if (theme === 'dark') {
           icon.src = "{% static 'icone/clair.png' %}"
           icon.alt = 'Mode clair'
-          toggle.classList.remove('btn-outline-light')
+          //toggle.classList.remove('btn-outline-light')
           toggle.classList.add('btn-light')
         } else {
           icon.src = "{% static 'icone/sombre.png' %}"
           icon.alt = 'Mode sombre'
           toggle.classList.remove('btn-light')
-          toggle.classList.add('btn-outline-light')
+          //toggle.classList.add('btn-outline-light')
         }
       }
       

@@ -45,9 +45,9 @@
                   <td>{{ emp.bibliothecaire }}</td>
                   <td>{{ emp.reservation.adherent }}</td>
                   <td>
-                    <ul class="mb-0">
+                    <ul class="mb-0 list-group list-group-numbered">
                       {% for detail in emp.reservation.ligneReservation.all %}
-                        <li>{{ detail.livre }} (Quantité: {{ detail.quantite }})</li>
+                        <li class="list-group-item">{{ detail.livre }} (Quantité: {{ detail.quantite }})</li>
                       {% endfor %}
                     </ul>
                   </td>
