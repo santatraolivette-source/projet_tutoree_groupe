@@ -71,8 +71,10 @@ def dashboard_stats(request):
             'default' : None
         }
     except:
-        return HttpResponse("Bienvenue, l'application est en maintenance. Veuillez contacter l'administrateur. Merci pour votre patience")
-
+        return {
+            'maintenance_mode' : True,
+            'error_message' : "Bienvenue, l'application est en maintenance. Veuillez contacter l'administrateur. Merci pour votre patience"
+        }
 
 def user_role(request):
     return {'user_role' : get_user_role(request.user)}

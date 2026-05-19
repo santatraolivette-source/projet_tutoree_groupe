@@ -8,7 +8,9 @@
   {% load static %}
 
   {% if request.user.is_authenticated %}
-    <p>Bonjour, {{ request.user.username }}</p>
+    <p class="text-center">
+      Bonjour, <strong>{{ request.user.username }}</strong>
+    </p>
   {% else %}
     <section class="vh-100">
       <div class="row justify-content-center h-100">

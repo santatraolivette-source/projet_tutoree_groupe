@@ -19,6 +19,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
   </head>
   <body>
+    {% if maintenance_mode %}
+      <p>{{ error_message }}</p>
+    {% endif %}
     <!-- Loader de redirection après connexion -->
     <div class="loader-overlay" id="loaderOverlay">
       <div class="text-center">
@@ -93,7 +96,7 @@
           </div>
         </header>
         {% if user_role.role == 'bibliothecaire' %}
-          <section class="d-flex flex-row-lg">
+          <section class="d-flex flex-lg-row">
             <div class="card col-4 m-2 p-3">
               <h3>Total livre</h3>
               <p>
