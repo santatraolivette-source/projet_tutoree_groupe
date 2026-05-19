@@ -37,7 +37,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['cjn6a7oxmmozmail.pythonanywhere.com','127.0.0.1']
+ALLOWED_HOSTS = ['projet-tutoree-groupe-2.onrender.com','127.0.0.1']
 
 
 # Application definition
