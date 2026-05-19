@@ -21,138 +21,138 @@
   <body>
     {% if maintenance_mode %}
       <p>{{ error_message }}</p>
-    {% endif %}
-    <!-- Loader de redirection après connexion -->
-    <div class="loader-overlay" id="loaderOverlay">
-      <div class="text-center">
-        <div class="book-loader">
-          <div class="book">
-            <div class="book-spine"></div>
-            <div class="book-cover-left"></div>
-            <div class="book-cover-right"></div>
-            <div class="book-page"></div>
+    {% else %}
+      <!-- Loader de redirection après connexion -->
+      <div class="loader-overlay" id="loaderOverlay">
+        <div class="text-center">
+          <div class="book-loader">
+            <div class="book">
+              <div class="book-spine"></div>
+              <div class="book-cover-left"></div>
+              <div class="book-cover-right"></div>
+              <div class="book-page"></div>
+            </div>
           </div>
+          <div class="loader-text">Chargement en cours...</div>
         </div>
-        <div class="loader-text">Chargement en cours...</div>
       </div>
-    </div>
 
-    <div class="min-vh-100 d-flex flex-column">
-      {% if user.is_authenticated %}
-        <header class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
-          <div class="container-fluid">
-            <a class="navbar-brand d-flex align-items-center gap-2" href="{% url 'indexDashboard' %}">
-              <img src="{% static 'icone/livre_01.png' %}" alt="Logo" width="34" height="34" />
-              LibManager
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="mainNavbar">
-              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                {% if user.is_authenticated %}
-                  {% if user_role and user_role.role == 'bibliothecaire' %}
-                    <li class="nav-item">
-                      <a class="nav-link" href="{% url 'indexDashboard' %}">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="{% url 'listeAdherent' %}">Adhérents</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="{% url 'listeEmprunt' %}">Emprunts</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="{% url 'liste_livre' %}">Livres</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="{% url 'listeReservationAValidee' %}">Réservations</a>
-                    </li>
-                  {% else %}
-                    <li class="nav-item">
-                      <a class="nav-link" href="{% url 'indexDashboard' %}">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="{% url 'listeReservation' %}">Réservations</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="{% url 'liste_livre' %}">Livres</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="{% url 'mesEmprunts' %}">Mes emprunts</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="{% url 'aide' %}">Aide ?</a>
-                    </li>
+      <div class="min-vh-100 d-flex flex-column">
+        {% if user.is_authenticated %}
+          <header class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+            <div class="container-fluid">
+              <a class="navbar-brand d-flex align-items-center gap-2" href="{% url 'indexDashboard' %}">
+                <img src="{% static 'icone/livre_01.png' %}" alt="Logo" width="34" height="34" />
+                LibManager
+              </a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+              <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  {% if user.is_authenticated %}
+                    {% if user_role and user_role.role == 'bibliothecaire' %}
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'indexDashboard' %}">Dashboard</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listeAdherent' %}">Adhérents</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listeEmprunt' %}">Emprunts</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'liste_livre' %}">Livres</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listeReservationAValidee' %}">Réservations</a>
+                      </li>
+                    {% else %}
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'indexDashboard' %}">Dashboard</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'listeReservation' %}">Réservations</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'liste_livre' %}">Livres</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'mesEmprunts' %}">Mes emprunts</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'aide' %}">Aide ?</a>
+                      </li>
+                    {% endif %}
                   {% endif %}
-                {% endif %}
-              </ul>
-              <div class="d-flex align-items-center gap-2">
-                <button id="themeToggle" type="button" class="btn btn-sm btn-theme-toggle" aria-label="Basculer thème" title="Changer le mode"><img src="{% static 'icone/sombre.png' %}" alt="Mode sombre" width="30" height="30" class="theme-icon" /></button>
-                {% if user.is_authenticated %}
-                  <a href="{% url 'seDeconnecter' %}" class="btn btn-sm" title="Se deconnecter"><img src="{% static 'icone/deconnecter.png' %}" alt="Se deconnecter" width="30" height="30" /></a>
-                {% else %}
-                  <a href="{% url 'seConnecter' %}" class="btn btn-sm" title="Se connecter">Connexion</a>
-                {% endif %}
+                </ul>
+                <div class="d-flex align-items-center gap-2">
+                  <button id="themeToggle" type="button" class="btn btn-sm btn-theme-toggle" aria-label="Basculer thème" title="Changer le mode"><img src="{% static 'icone/sombre.png' %}" alt="Mode sombre" width="30" height="30" class="theme-icon" /></button>
+                  {% if user.is_authenticated %}
+                    <a href="{% url 'seDeconnecter' %}" class="btn btn-sm" title="Se deconnecter"><img src="{% static 'icone/deconnecter.png' %}" alt="Se deconnecter" width="30" height="30" /></a>
+                  {% else %}
+                    <a href="{% url 'seConnecter' %}" class="btn btn-sm" title="Se connecter">Connexion</a>
+                  {% endif %}
+                </div>
               </div>
             </div>
-          </div>
-        </header>
-        {% if user_role.role == 'bibliothecaire' %}
-          <section class="d-flex flex-lg-row">
-            <div class="card col-4 m-2 p-3">
-              <h3>Total livre</h3>
-              <p>
-                <strong>{{ total_livres }}</strong> Livres
-              </p>
-              <p>
-                <b>{{ titres_differents }}</b> titres différents
-              </p>
-            </div>
-            <div class="card col-4 m-2 p-3">
-              <h3>Adhérents</h3>
-              <p>
-                <b>{{ total_adherents }}</b>
-              </p>
-              <p>
-                <b>{{ membres_actifs }}</b>
-                membres actifs
-              </p>
-            </div>
-            <div class="card col-4 m-2 p-3">
-              <h3>Emprunts en cours</h3>
-              <p>
-                <b>{{ emprunts_non_retourne }}</b>
-                Non retounés
-              </p>
-            </div>
-          </section>
-        {% endif %}
-      {% endif %}
-      <main class="container-fluid py-4 flex-grow-1">
-        {% if messages %}
-          <div class="mb-4">
-            {% for message in messages %}
-              <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show form-alert" role="alert">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </header>
+          {% if user_role.role == 'bibliothecaire' %}
+            <section class="d-flex flex-lg-row">
+              <div class="card col-4 m-2 p-3">
+                <h3>Total livre</h3>
+                <p>
+                  <strong>{{ total_livres }}</strong> Livres
+                </p>
+                <p>
+                  <b>{{ titres_differents }}</b> titres différents
+                </p>
               </div>
-            {% endfor %}
-          </div>
+              <div class="card col-4 m-2 p-3">
+                <h3>Adhérents</h3>
+                <p>
+                  <b>{{ total_adherents }}</b>
+                </p>
+                <p>
+                  <b>{{ membres_actifs }}</b>
+                  membres actifs
+                </p>
+              </div>
+              <div class="card col-4 m-2 p-3">
+                <h3>Emprunts en cours</h3>
+                <p>
+                  <b>{{ emprunts_non_retourne }}</b>
+                  Non retounés
+                </p>
+              </div>
+            </section>
+          {% endif %}
         {% endif %}
+        <main class="container-fluid py-4 flex-grow-1">
+          {% if messages %}
+            <div class="mb-4">
+              {% for message in messages %}
+                <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show form-alert" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
 
-        {% block content %}
+          {% block content %}
 
-        {% endblock %}
-      </main>
-      {% if user_role and user_role.role == 'adherent' and request.path != '/chatbot/' %}
-        <a title="Assistant virtuel" class="chatbot-btn bg-primary chatbot" id="chatbot" draggable="true" href="{% url 'chatbot' %}"><img src="{% static 'icone/icons8-chatbot-48.png' %}" alt="" width="30" height="30" class="icon" /></a>
-      {% endif %}
-      <footer class="text-center text-muted py-4 border-top mt-auto bg-white">
-        <div class="container">
-          © 2026 • Gestion de bibliothèque
-          <a class="text-decoration-none" href="https://asjaweb.com/">ASJA</a>
-        </div>
-      </footer>
-    </div>
-
+          {% endblock %}
+        </main>
+        {% if user_role and user_role.role == 'adherent' and request.path != '/chatbot/' %}
+          <a title="Assistant virtuel" class="chatbot-btn bg-primary chatbot" id="chatbot" draggable="true" href="{% url 'chatbot' %}"><img src="{% static 'icone/icons8-chatbot-48.png' %}" alt="" width="30" height="30" class="icon" /></a>
+        {% endif %}
+        <footer class="text-center text-muted py-4 border-top mt-auto bg-white">
+          <div class="container">
+            © 2026 • Gestion de bibliothèque
+            <a class="text-decoration-none" href="https://asjaweb.com/">ASJA</a>
+          </div>
+        </footer>
+      </div>
+    {% endif %}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script>
       // Afficher l'animation au chargement de la page après connexion

@@ -13,14 +13,14 @@
           <p class="text-muted-soft mb-4">Vous voulez vraiment supprimer l'adhérent suivant ?</p>
     
           <ul class="list-group mb-4">
-            <li class="list-group-item">Matricule : {{ adherent.matricule }}</li>
-            <li class="list-group-item">Nom : {{ adherent.nom }}</li>
-            <li class="list-group-item">Prénom : {{ adherent.prenom }}</li>
-            <li class="list-group-item">Email : {{ adherent.email }}</li>
-            <li class="list-group-item">Fonction : {{ adherent.fonctions }}</li>
+            <li class="list-group-item">Matricule : <strong>{{ adherent.matricule }}</strong></li>
+            <li class="list-group-item">Nom : <strong>{{ adherent.nom }}</strong></li>
+            <li class="list-group-item">Prénom : <strong>{{ adherent.prenom }}</strong></li>
+            <li class="list-group-item">Email : <strong>{{ adherent.email }}</strong></li>
+            <li class="list-group-item">Fonction : <strong>{{ adherent.fonctions }}</strong></li>
           </ul>
           </div>
-            <form method="post" class="text-center">
+            <form method="post" class="text-center mb-3">
             {% csrf_token %}
             <button type="submit" class="btn btn-danger ">Supprimer</button>
             <a href="{% url 'listeAdherent' %}" class="btn btn-secondary">Annuler</a>

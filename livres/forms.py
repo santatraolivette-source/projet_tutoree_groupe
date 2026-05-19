@@ -2,7 +2,7 @@ from django import forms
 from .models import Livre
 
 
-STYLE_DE_BASE = 'form-control m-3'
+STYLE_DE_BASE = 'form-control mr-3 ml-2 border'
 class LivreForm(forms.ModelForm) : 
     class Meta :
         model = Livre
@@ -10,23 +10,23 @@ class LivreForm(forms.ModelForm) :
         widgets = {
             'reference' : forms.TextInput(attrs={
                 'class' : STYLE_DE_BASE , 
-                'placeholder' : 'reference'
+                'placeholder' : 'Réference du livre'
         }),
             'titre' : forms.TextInput(attrs={
                 'class' : STYLE_DE_BASE, 
-                'placeholder' : 'titre'
+                'placeholder' : 'Titre'
             }),
             'auteur' : forms.TextInput(attrs={
                 'class' : STYLE_DE_BASE, 
-                'placeholder' : 'auteur'
+                'placeholder' : 'L\'auteur'
             }),
             'categorie' : forms.Select(attrs={
                 'class' : STYLE_DE_BASE, 
-                'placeholder' : 'categorie'
+                'placeholder' : 'Categorie'
             }),
             'quantite' : forms.TextInput(attrs={
                 'class' : STYLE_DE_BASE, 
-                'placeholder' : 'quantite'
+                'placeholder' : 'Quantite'
             }),
             }
         
@@ -34,11 +34,12 @@ class LivreForm(forms.ModelForm) :
 class LivreModificationForm(forms.ModelForm) : 
     class Meta :
         model = Livre
-        fields = ['reference' , 'titre' , 'auteur' , 'categorie']
+        fields = ['reference' , 'titre' , 'auteur', 'quantite']
         widgets = {
             'reference' : forms.TextInput(attrs={
                 'class' : STYLE_DE_BASE , 
-                'placeholder' : 'reference'
+                'title' : 'Vous ne pouvez pas modifier la réference',
+                'readonly' : True
         }),
             'titre' : forms.TextInput(attrs={
                 'class' : STYLE_DE_BASE, 
@@ -48,8 +49,9 @@ class LivreModificationForm(forms.ModelForm) :
                 'class' : STYLE_DE_BASE, 
                 'placeholder' : 'auteur'
             }),
-            'categorie' : forms.Select(attrs={
-                'class' : STYLE_DE_BASE, 
-                'placeholder' : 'categorie'
-            }),
+            'quantite': forms.NumberInput(attrs={
+                'class' : STYLE_DE_BASE,
+                'readonly' : True,
+                'title' : 'Vous ne ppuvez pas modifier la quantité du livre'
+            })
             }

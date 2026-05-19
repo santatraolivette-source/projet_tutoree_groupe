@@ -17,8 +17,14 @@ def envoyer_rappels():
     # On envoie un email à chaque emprunteur
     for emprunt in emprunts_bientot:
         send_mail(
-            subject='Rappel- Retour de livre',
-            message=f'Bonjour {emprunt.adherent.nom} {emprunt.adherent.prenom}, votre livre "{emprunt.ref_livre.titre}" doit être retourné dans 3 jours.',
+            subject='Rappel : retour de livre',
+            message=f"""Bonjour {emprunt.adherent.nom} {emprunt.adherent.prenom},
+Votre livre \"{emprunt.ref_livre.titre}\" doit être retourné dans 3 jours.
+Merci de bien vouloir apporter le justificatif d'emprunt lors de votre passage.
+
+Cordialement,
+La bibliothèque
+""",
             from_email=settings.EMAIL_FROM,
             recipient_list=[emprunt.adherent.email]
         )
@@ -36,8 +42,13 @@ def envoyer_rappels():
     # Envoi d'un email de notification
     for emprunt in emprunts_retard:
         send_mail(
-            subject='Retard- Retour de livre',
-            message=f'Bonjour {emprunt.adherent.nom} {emprunt.adherent.prenom}, votre livre "{emprunt.ref_livre.titre}" est en retard depuis le {emprunt.date_limite}. Veuillez le déposer auprès de la bibliothèque.',
+            subject='Retard : retour de livre',
+            message=f"""Bonjour {emprunt.adherent.nom} {emprunt.adherent.prenom},
+Votre prêt du livre "{emprunt.ref_livre.titre}" est en retard depuis le {emprunt.date_limite}.
+Nous vous remercions de bien vouloir rapporter l'ouvrage à la bibliothèque dans les meilleurs délais.
+
+Cordialement,
+La bibliothèque""",
             from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[emprunt.adherent.email]
         )

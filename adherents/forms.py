@@ -8,19 +8,19 @@ class FormulaireAjoutAdherent(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'matricule' : forms.TextInput(attrs={
-                'class' : 'form-control'
+                'class' : 'form-control border'
             }),
             'nom' : forms.TextInput(attrs={
-                'class' : 'form-control'
+                'class' : 'form-control border'
             }),
             'prenom' : forms.TextInput(attrs={
-                'class' : 'form-control'
+                'class' : 'form-control border'
             }),
             'email' : forms.EmailInput(attrs={
-                'class' : 'form-control'
+                'class' : 'form-control border'
             }),
             'fonctions' : forms.Select(attrs={
-                'class' : 'form-control'
+                'class' : 'form-control border'
             })
         }
 
@@ -160,6 +160,8 @@ class DetailReservationFormSet(BaseInlineFormSet):
                 valid_forms_count += 1
         if valid_forms_count < 1:
             raise ValidationError("Vous devez réserver au moins un livre")
+        if valid_forms_count > 5:
+            raise ValidationError("Vous ne pouvez pas emprunté plus de 5 livres en même temps")
     
 # Utilisation de inlineformset_factory de Django pour faciliter l'enregistrement de plusieurs formulaires
 

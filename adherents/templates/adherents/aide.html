@@ -7,7 +7,7 @@
 {% block content %}
   {% load static %}
 
-  <div class="aide-page">
+  <div class="aide-page container-fluid">
     <div class="aide-header">
       <h1>Centre d'Aide <img src="{% static 'icone/icons8-help-50.png' %}" alt="?" width="30" height="30" /></h1>
       <p>Trouvez les réponses à vos questions et obtenez de l'assistance</p>
@@ -260,6 +260,7 @@
       margin-bottom: 40px;
     }
     
+    /*Style conteneur card*/
     .aide-card {
       background: #ffffff;
       border: 1px solid #e2e8f0;
@@ -269,16 +270,19 @@
       transition: all 0.3s ease;
     }
     
+    /*Ajout box shadow lors de la survol*/
     .aide-card:hover {
       box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
     }
     
+    /*Style de l'n entête de la carte aide*/
     .card-header {
-      background: linear-gradient(135deg, #3b7ac2 0%, #718cdd 100%);
+      background: #4945e1;
       padding: 20px;
-      color: #ffffff;
+      color: #fff;
     }
     
+    /*Style titre niveau 2 à l'intérieur de aide*/
     .card-header h2 {
       margin: 0;
       font-size: 1.3rem;
@@ -348,7 +352,7 @@
     }
     
     .aide-contact {
-      background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+      background: #4945e1;
       padding: 40px;
       border-radius: 16px;
       text-align: center;

@@ -9,7 +9,7 @@ import secrets
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from bibliotheque.utils import get_user_role
-from django.forms import ValidationError
+from django.conf import settings
 
 @login_required
 def liste_adherents(request):
@@ -97,9 +97,9 @@ def verification(request):
             request.session['otp_code'] = otp
             request.session['otp_email'] = email
             send_mail(
-                subject='Vérification via code OTP',
-                message=f'Bonjour voici votre code OTP {otp}',
-                from_email='stockalerte85@gmail.com',
+                subject='Vérification de votre adresse e-mail',
+                message=f"Bonjour,\n\nVoici votre code de vérification : {otp}\n\nMerci de ne pas partager ce code.",
+                from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[email]
             )
             return redirect('inscription')
